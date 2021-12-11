@@ -5,8 +5,7 @@ require("test.extensions")
 local it = a.tests.it
 
 describe("elmls", function()
-  helpers.setup_server("elmls", {
-  })
+  helpers.setup_server("elmls", {})
 
   it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
@@ -18,6 +17,8 @@ describe("elmls", function()
 
     assert.equal(1, #buf_clients)
     assert.equal("elmls", buf_clients[1].name)
+    assert.equal(1, buf_clients[1].workspace_folders)
+    assert.equal(helpers.resolve_workspace_uri("example-project-1"), buf_clients[1].workspace_folders[1].uri)
     assert.is_truthy(buf_clients[1].initialized)
   end)
 end)

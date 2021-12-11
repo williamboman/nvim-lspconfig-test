@@ -60,4 +60,17 @@ function M.setup_server(server_name, opts)
   server:setup(opts)
 end
 
+function M.resolve_workspace_dir(workspace_dir, depth)
+  -- https://stackoverflow.com/questions/6380820/get-containing-path-of-lua-file
+  local pattern = vim.loop.os_uname().sysname == "Windows" and "(.*[/\\])" or "(.*/)"
+  local dir = debug.getinfo(depth or 2, "S").source:sub(2):match(pattern)
+  local resolved_workspace_dir = ("%s/fixtures/%s"):format(dir, workspace_dir)
+  return resolved_workspace_dir
+end
+
+function M.resolve_workspace_uri(workspace_dir)
+  return vim.uri_from_fname(M.resolve_workspace_dir(workspace_dir, 3))
+end
+
+
 return M

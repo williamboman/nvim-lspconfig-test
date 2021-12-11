@@ -7,14 +7,29 @@ local it = a.tests.it
 describe("tsserver", function()
   helpers.setup_server("tsserver", {})
 
-  before_each(a.util.will_block(function()
+  it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
-    vim.api.nvim_command("new | only | edit fixtures/example-project-1/index.ts")
+    vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/index.ts")
     vim.api.nvim_command("set ft=typescript")
     helpers.wait_for_ready_lsp()
-  end))
+
+    local buf_clients = vim.lsp.buf_get_clients()
+
+    assert.equal(1, #buf_clients)
+    assert.equal("tsserver", buf_clients[1].name)
+    assert.equal(1, #buf_clients[1].workspace_folders)
+    assert.equal(helpers.resolve_workspace_uri("example-project-1"), buf_clients[1].workspace_folders[1].uri)
+    assert.is_truthy(buf_clients[1].initialized)
+  end)
 
   describe("acceptance tests", function()
+    before_each(a.util.will_block(function()
+      vim.api.nvim_command("bufdo bwipeout!")
+      vim.api.nvim_command("new | only | edit fixtures/example-project-1/index.ts")
+      vim.api.nvim_command("set ft=typescript")
+      helpers.wait_for_ready_lsp()
+    end))
+
     it("hover", function()
       vim.api.nvim_win_set_cursor(0, { 1, 6 })
       assert.equal(1, #vim.api.nvim_list_wins())
