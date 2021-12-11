@@ -5,10 +5,12 @@ require("test.extensions")
 local it = a.tests.it
 
 describe("sumneko_lua", function()
+  local workspace_dir = helpers.resolve_workspace_dir("example-project-1")
+
   local is_ready = false
   helpers.setup_server("sumneko_lua", {
     root_dir = function()
-      return vim.loop.cwd()
+      return workspace_dir
     end,
     handlers = {
       ["$/progress"] = function(_, result)
@@ -17,19 +19,34 @@ describe("sumneko_lua", function()
     },
   })
 
-  before_each(function()
-    a.util.block_on(function()
-      vim.api.nvim_command("bufdo bwipeout!")
-      vim.api.nvim_command("new | only | edit fixtures/example-project-1/init.lua")
-      vim.api.nvim_command("set ft=lua")
-      helpers.wait_for_ready_lsp()
-      while not is_ready do
-        a.util.sleep(30)
-      end
-    end, 5000)
+  it("starts", function ()
+    vim.api.nvim_command("bufdo bwipeout!")
+    vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/src/hello-world/init.lua")
+    vim.api.nvim_command("set ft=lua")
+    helpers.wait_for_ready_lsp()
+
+    local buf_clients = vim.lsp.buf_get_clients()
+
+    assert.equal(1, #buf_clients)
+    assert.equal("sumneko_lua", buf_clients[1].name)
+    assert.equal(1, #buf_clients[1].workspace_folders)
+    assert.equal(helpers.resolve_workspace_uri("example-project-1"), buf_clients[1].workspace_folders[1].uri)
+    assert.is_truthy(buf_clients[1].initialized)
   end)
 
   describe("acceptance tests", function()
+    before_each(function()
+      a.util.block_on(function()
+        vim.api.nvim_command("bufdo bwipeout!")
+        vim.api.nvim_command("new | only | edit fixtures/example-project-1/init.lua")
+        vim.api.nvim_command("set ft=lua")
+        helpers.wait_for_ready_lsp()
+        while not is_ready do
+          a.util.sleep(30)
+        end
+      end, 5000)
+    end)
+
     it("hover", function()
       vim.api.nvim_win_set_cursor(0, { 1, 6 })
       assert.equal(1, #vim.api.nvim_list_wins())
