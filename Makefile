@@ -8,7 +8,9 @@ check_test_var = if [ -z ${TEST} ]; then >&2 echo "must specify \$$TEST"; exit 1
 
 packpath:
 	git clone --depth 1 https://github.com/neovim/nvim-lspconfig $(PACKPATH)/pack/dependencies/start/nvim-lspconfig
-	git clone --depth 1 https://github.com/nvim-lua/plenary.nvim $(PACKPATH)/pack/dependencies/start/plenary.nvim
+	git clone --depth 1 https://github.com/williamboman/plenary.nvim $(PACKPATH)/pack/dependencies/start/plenary.nvim
+	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim fetch origin timeout-param
+	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim checkout FETCH_HEAD
 	git clone --depth 1 https://github.com/williamboman/nvim-lsp-installer $(PACKPATH)/pack/dependencies/start/nvim-lsp-installer
 
 setup: packpath
