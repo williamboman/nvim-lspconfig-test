@@ -15,7 +15,7 @@ describe("hls", function()
 
   it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
-    vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/src/Hello.hs")
+    vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/app/Main.hs")
     vim.api.nvim_command("set ft=haskell")
     helpers.wait_for_ready_lsp()
 

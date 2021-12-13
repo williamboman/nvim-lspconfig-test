@@ -5,13 +5,7 @@ require("test.extensions")
 local it = a.tests.it
 
 describe("erlangls", function()
-  local workspace_dir = helpers.resolve_workspace_dir("example-project-1")
-
-  helpers.setup_server("erlangls", {
-    root_dir = function()
-      return workspace_dir
-    end,
-  })
+  helpers.setup_server("erlangls", {})
 
   it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
@@ -23,9 +17,8 @@ describe("erlangls", function()
 
     assert.equal(1, #buf_clients)
     assert.equal("erlangls", buf_clients[1].name)
-    -- Single file support
-    assert.is_nil(buf_clients[1].workspace_folders)
     assert.equal(helpers.resolve_workspace_dir("example-project-1"), buf_clients[1].config.cmd_cwd)
     assert.is_truthy(buf_clients[1].initialized)
   end)
+
 end)

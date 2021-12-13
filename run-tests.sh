@@ -10,15 +10,15 @@ function failure {
 echo "Running tests..."
 echo
 
-for server in angularls ansiblels arduino_language_server bashls bicep clangd clojure_lsp cmake codeqlls csharp_ls cssls dartls denols diagnosticls dockerls dotls efm elixirls elmls ember emmet_ls erlangls esbonio eslint fortls fsautocomplete gopls graphql groovyls hls html intelephense jdtls jedi_language_server jsonls jsonnet_ls kotlin_language_server lemminx ltex ocamlls omnisharp phpactor powershell_es prismals puppet purescriptls pylsp pyright quick_lint_js rescriptls rome rust_analyzer serve_d solang solargraph sorbet spectral sqlls sqls stylelint_lsp sumneko_lua svelte tailwindcss terraformls texlab tflint tsserver vala_ls vimls volar vuels yamlls zls; do
-  TEST=$server make setup || failure $server
-  TEST=$server make test || failure $server
-done
+rm -rf .tests-output
+mkdir -p .tests-output
+
+ls -d tests/* | xargs -I% basename % | xargs -I% -P 4 bash -c 'set -euo pipefail; export TEST=%; make setup | tee .tests-output/${TEST}.log; make test | tee .tests-output/${TEST}.log'
 
 echo
-echo "----------------"
-echo "Tests complete"
-echo "----------------"
+echo "------------------"
+echo "| Tests complete |"
+echo "------------------"
 echo
 
 # Get length of FAILED_SERVERS and exit if its more than one

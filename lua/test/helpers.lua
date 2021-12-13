@@ -1,4 +1,5 @@
 local a = require("plenary.async")
+local lspconfig_util = require("lspconfig.util")
 
 local M = {}
 
@@ -60,16 +61,12 @@ function M.setup_server(server_name, opts)
   server:setup(opts)
 end
 
-function M.resolve_workspace_dir(workspace_dir, depth)
-  -- https://stackoverflow.com/questions/6380820/get-containing-path-of-lua-file
-  local pattern = vim.loop.os_uname().sysname == "Windows" and "(.*[/\\])" or "(.*/)"
-  local dir = debug.getinfo(depth or 2, "S").source:sub(2):match(pattern)
-  local resolved_workspace_dir = ("%sfixtures/%s"):format(dir, workspace_dir)
-  return resolved_workspace_dir
+function M.resolve_workspace_dir(workspace_dir)
+  return lspconfig_util.path.join(vim.loop.cwd(), "fixtures", workspace_dir)
 end
 
 function M.resolve_workspace_uri(workspace_dir)
-  return vim.uri_from_fname(M.resolve_workspace_dir(workspace_dir, 3))
+  return vim.uri_from_fname(M.resolve_workspace_dir(workspace_dir))
 end
 
 
