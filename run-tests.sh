@@ -13,7 +13,7 @@ echo
 rm -rf .tests-output
 mkdir -p .tests-output
 
-ls -d tests/* | xargs -I% basename % | xargs -I% -P 4 bash -c 'set -euo pipefail; export TEST=%; make setup | tee .tests-output/${TEST}.log; make test | tee .tests-output/${TEST}.log'
+ls -d tests/* | grep -v -e 'volar' -e 'puppet' -e 'codeqlls' -e 'arduino_language_server' | xargs -I% basename % | xargs -I% -P 4 bash -c 'set -euo pipefail; export TEST=%; make setup | tee .tests-output/${TEST}.log; make test | tee .tests-output/${TEST}.log'
 
 echo
 echo "------------------"
