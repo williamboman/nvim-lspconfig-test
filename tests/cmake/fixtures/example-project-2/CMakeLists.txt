@@ -1,0 +1,1 @@
+project (hello_cmake)
