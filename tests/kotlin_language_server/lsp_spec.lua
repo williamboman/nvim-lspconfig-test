@@ -14,7 +14,7 @@ describe("kotlin_language_server", function()
     vim.api.nvim_command("set ft=kotlin")
     helpers.wait_for_ready_lsp()
 
-    local buf_clients = vim.lsp.buf_get_clients()
+    local buf_clients = vim.tbl_values(vim.lsp.buf_get_clients(0))
 
     assert.equal(1, #buf_clients)
     assert.equal("kotlin_language_server", buf_clients[1].name)

@@ -13,7 +13,7 @@ describe("tailwindcss", function()
     vim.api.nvim_command("set ft=html")
     helpers.wait_for_ready_lsp()
 
-    local buf_clients = vim.lsp.buf_get_clients()
+    local buf_clients = vim.tbl_values(vim.lsp.buf_get_clients(0))
 
     assert.equal(1, #buf_clients)
     assert.equal("tailwindcss", buf_clients[1].name)

@@ -19,13 +19,13 @@ describe("sumneko_lua", function()
     },
   })
 
-  it("starts", function ()
+  it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
     vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/src/hello-world/init.lua")
     vim.api.nvim_command("set ft=lua")
     helpers.wait_for_ready_lsp()
 
-    local buf_clients = vim.lsp.buf_get_clients()
+    local buf_clients = vim.tbl_values(vim.lsp.buf_get_clients(0))
 
     assert.equal(1, #buf_clients)
     assert.equal("sumneko_lua", buf_clients[1].name)
