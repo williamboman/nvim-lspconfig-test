@@ -61,13 +61,14 @@ function M.setup_server(server_name, opts)
   server:setup(opts)
 end
 
+---param workspace_dir string
 function M.resolve_workspace_dir(workspace_dir)
   return lspconfig_util.path.join(vim.loop.cwd(), "fixtures", workspace_dir)
 end
 
+---param workspace_dir string
 function M.resolve_workspace_uri(workspace_dir)
   return vim.uri_from_fname(M.resolve_workspace_dir(workspace_dir))
 end
-
 
 return M

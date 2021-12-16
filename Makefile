@@ -23,7 +23,7 @@ test: packpath
 	@cp -r "./tests/$(TEST)" "$(TMP_DIR)"
 	$(NVIM_HEADLESS) \
 		-c "cd $(TMP_DIR)" \
-		-c "lua require('plenary.test_harness').test_directory('.', {minimal_init='$(shell pwd)/minimal_init.lua'$(COMMA)sequential=true$(COMMA)timeout=600000})"
+		-c "call v:lua.run_tests()"
 
 clean:
 	rm -rf $(PACKPATH)

@@ -17,8 +17,8 @@ describe("codeqlls", function()
 
     assert.equal(1, #buf_clients)
     assert.equal("codeqlls", buf_clients[1].name)
-    -- Single file support
-    assert.is_nil(buf_clients[1].workspace_folders)
+    assert.is_not.is_nil(helpers.resolve_workspace_uri("example-project-1"), buf_clients[1].workspace_folders)
+    assert.equal(helpers.resolve_workspace_uri("example-project-1"), buf_clients[1].workspace_folders[1].uri)
     assert.equal(helpers.resolve_workspace_dir("example-project-1"), buf_clients[1].config.cmd_cwd)
     assert.is_truthy(buf_clients[1].initialized)
   end)
