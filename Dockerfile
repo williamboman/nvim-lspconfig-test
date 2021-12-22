@@ -9,6 +9,8 @@ RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
 # Base deps
 RUN apt update
 RUN apt install -y \
+        clang \
+        cmake \
         curl \
         default-jre \
         erlang \
@@ -16,6 +18,7 @@ RUN apt install -y \
         git \
         gzip \
         haskell-platform \
+        libxml2-dev \
         make \
         ninja-build \
         php-cli \
