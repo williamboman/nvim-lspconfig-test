@@ -13,8 +13,6 @@ echo
 rm -rf .tests-output
 mkdir -p .tests-output
 
-PATH=~/.opam/default/bin:$PATH
-
 ls -d tests/* | grep -v -e 'volar' -e 'puppet' -e 'solargraph' | xargs -I% basename % | xargs -I% -P 2 bash -c 'set -euo pipefail; export TEST=%; ((make setup | tee .tests-output/${TEST}.log) || true); make test | tee .tests-output/${TEST}.log'
 
 echo

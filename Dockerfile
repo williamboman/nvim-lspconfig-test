@@ -1,5 +1,6 @@
 FROM ubuntu:latest AS base
 
+RUN apt update
 RUN yes | unminimize
 
 RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
@@ -46,7 +47,7 @@ RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-p
     apt install -y dotnet-sdk-5.0
 
 # Ocaml
-RUN add-apt-repository ppa:avsm/ppa && \
+RUN add-apt-repository -y ppa:avsm/ppa && \
         apt update && \
         apt install -y ocaml opam && \
         opam init -y && \
@@ -98,7 +99,7 @@ RUN mkdir -p /tmp/watchman && \
     rm -rf /tmp/watchman.zip /tmp/watchman
 
 # Install vala
-RUN add-apt-repository ppa:vala-team && \
+RUN add-apt-repository -y ppa:vala-team && \
     apt update && apt install -y valac
 
 RUN pip3 install meson

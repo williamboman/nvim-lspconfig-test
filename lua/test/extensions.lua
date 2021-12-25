@@ -1,3 +1,4 @@
+local assert = require("luassert")
 local a = require("plenary.async")
 
 local function wait_for(_, arguments)
