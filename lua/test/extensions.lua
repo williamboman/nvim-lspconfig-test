@@ -16,6 +16,10 @@ local function wait_for(_, arguments)
     end
   until is_ok or ((vim.loop.hrtime() - start) / 1e6) > timeout
 
+  if not is_ok then
+    error(err)
+  end
+
   return is_ok
 end
 
