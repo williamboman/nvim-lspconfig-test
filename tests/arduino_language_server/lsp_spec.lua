@@ -5,7 +5,10 @@ require("test.extensions")
 local it = a.tests.it
 
 describe("arduino_language_server", function()
-  helpers.setup_server("arduino_language_server", {})
+  local _, arduino_language_server = require("nvim-lsp-installer.servers").get_server("arduino_language_server")
+  helpers.setup_server("arduino_language_server", {
+    cmd = vim.list_extend(arduino_language_server:get_default_options().cmd, { "-fqbn", "arduino:avr:nano" }),
+  })
 
   it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
