@@ -16,6 +16,9 @@ packpath:
 	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim merge --no-edit origin/no-os.exit origin/async-tests-error
 	git clone --depth 1 https://github.com/williamboman/nvim-lsp-installer $(PACKPATH)/pack/dependencies/start/nvim-lsp-installer
 
+	cd ./tests/remark_ls/fixtures/example-project-1/ && npm install remark
+	cd ./tests/remark_ls/fixtures/example-project-2/ && npm install remark
+
 setup: packpath
 	@${check_test_var}
 	$(NVIM_HEADLESS) -c "LspInstall --sync $(TEST)" -c "q"
