@@ -1,0 +1,1 @@
+project('my-project', 'vala')
