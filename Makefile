@@ -24,6 +24,7 @@ setup: packpath
 	$(NVIM_HEADLESS) -c "LspInstall --sync $(TEST)" -c "q"
 
 test: packpath
+	@mkdir -p "lsp_servers"
 	@${check_test_var}
 	$(eval TMP_DIR := $(shell mktemp -du))
 	@cp -r "./tests/$(TEST)" "$(TMP_DIR)"
