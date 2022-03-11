@@ -2,3 +2,4 @@
 /packpath
 /lsp_servers
 /.tests-output
+beancount-langserver.log
