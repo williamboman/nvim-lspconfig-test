@@ -26,7 +26,7 @@ describe("cmake", function()
 
   it("works with single file support", function()
     vim.api.nvim_command("bufdo bwipeout!")
-    vim.api.nvim_command("new | only | silent edit fixtures/example-project-2/CMakeLists.txt")
+    vim.api.nvim_command("new | only | silent edit fixtures/example-project-2/FakeCMakeLists.txt")
     vim.api.nvim_command("set ft=cmake")
     helpers.wait_for_ready_lsp()
 
