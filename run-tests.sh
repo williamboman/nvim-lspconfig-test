@@ -15,11 +15,11 @@ mkdir -p .tests-output
 
 PATH=~/.opam/default/bin:~/.nimble/bin:$PATH
 
-# verible not available on mac.
-# svls compilation takes forever and hogs CPU (takes 15 min).
 # puppet is broken (https://github.com/puppetlabs/puppet-editor-services/issues/318)
-# volar is also broken
-ls -d tests/* | grep -v -e 'volar' -e 'puppet' -e 'verible' -e 'svls' -e 'ccls' -e 'svls' | xargs -I% basename % | xargs -I% -P 2 bash -c 'set -euo pipefail; export TEST=%; ((make setup | tee .tests-output/${TEST}.log) || true); make test | tee .tests-output/${TEST}.log'
+# verible not available on mac.
+# ccls is slow
+# svls compilation takes forever and hogs CPU (takes 15 min).
+ls -d tests/* | grep -v -e 'puppet' -e 'verible' -e 'ccls' -e 'svls' | xargs -I% basename % | xargs -I% -P 2 bash -c 'set -euo pipefail; export TEST=%; ((make setup | tee .tests-output/${TEST}.log) || true); make test | tee .tests-output/${TEST}.log'
 
 echo
 echo "------------------"
