@@ -8,12 +8,8 @@ check_test_var = if [ -z ${TEST} ]; then >&2 echo "must specify \$$TEST"; exit 1
 
 packpath:
 	git clone --depth 1 https://github.com/neovim/nvim-lspconfig $(PACKPATH)/pack/dependencies/start/nvim-lspconfig
-	git clone --depth 1 https://github.com/williamboman/plenary.nvim $(PACKPATH)/pack/dependencies/start/plenary.nvim
-	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim fetch origin timeout-param
-	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim checkout FETCH_HEAD
-	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
-	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim fetch
-	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim merge --no-edit origin/no-os.exit origin/async-tests-error
+	git clone --depth 1 https://github.com/nvim-lua/plenary.nvim $(PACKPATH)/pack/dependencies/start/plenary.nvim
+	git -C $(PACKPATH)/pack/dependencies/start/plenary.nvim apply "$(shell pwd)/plenary.patch"
 	git clone --depth 1 https://github.com/williamboman/nvim-lsp-installer $(PACKPATH)/pack/dependencies/start/nvim-lsp-installer
 
 	cd ./tests/remark_ls/fixtures/example-project-1/ && npm install remark
