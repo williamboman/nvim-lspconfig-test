@@ -10,7 +10,7 @@ describe("ansiblels", function()
   it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
     vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/tasks/main.yml")
-    vim.api.nvim_command("set ft=ansible.yaml")
+    vim.api.nvim_command("set ft=yaml.ansible")
     helpers.wait_for_ready_lsp()
 
     local buf_clients = vim.tbl_values(vim.lsp.buf_get_clients(0))
