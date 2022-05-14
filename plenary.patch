@@ -1,5 +1,5 @@
 diff --git a/lua/plenary/async/tests.lua b/lua/plenary/async/tests.lua
-index 4895773..d9a8346 100644
+index 4895773..01ed548 100644
 --- a/lua/plenary/async/tests.lua
 +++ b/lua/plenary/async/tests.lua
 @@ -7,7 +7,7 @@ M.describe = function(s, async_func)
@@ -7,7 +7,7 @@ index 4895773..d9a8346 100644
  
  M.it = function(s, async_func)
 -  it(s, util.will_block(async_func))
-+  it(s, util.will_block(async_func, 60000)) -- TODO: use test timeout
++  it(s, util.will_block(async_func, tonumber(vim.env.PLENARY_TEST_TIMEOUT)))
  end
  
  M.before_each = function(async_func)
@@ -30,3 +30,16 @@ index 3e6f033..d224f7d 100644
    end
  end
  
+diff --git a/lua/plenary/test_harness.lua b/lua/plenary/test_harness.lua
+index 9acd866..e404921 100644
+--- a/lua/plenary/test_harness.lua
++++ b/lua/plenary/test_harness.lua
+@@ -47,6 +47,8 @@ function harness.test_directory(directory, opts)
+     timeout = 50000,
+   }, opts or {})
+ 
++  vim.env.PLENARY_TEST_TIMEOUT = opts.timeout
++
+   local res = {}
+   if not headless then
+     res = win_float.percentage_range_window(0.95, 0.70, opts.winopts)
