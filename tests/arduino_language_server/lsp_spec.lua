@@ -5,9 +5,15 @@ require("test.extensions")
 local it = a.tests.it
 
 describe("arduino_language_server", function()
-  local _, arduino_language_server = require("nvim-lsp-installer.servers").get_server("arduino_language_server")
+  -- Does a `arduino-cli daemon` instance need to be running?
   helpers.setup_server("arduino_language_server", {
-    cmd = vim.list_extend(arduino_language_server:get_default_options().cmd, { "-fqbn", "arduino:avr:nano" }),
+    cmd = {
+      "arduino-language-server",
+      "-cli-config",
+      "arduino-cli.yaml",
+      "-fqbn",
+      "arduino:avr:nano",
+    },
   })
 
   it("starts", function()
