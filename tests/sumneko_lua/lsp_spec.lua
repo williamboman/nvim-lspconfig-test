@@ -21,7 +21,7 @@ describe("sumneko_lua", function()
 
   it("starts", function()
     vim.api.nvim_command("bufdo bwipeout!")
-    vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/src/hello-world/init.lua")
+    vim.api.nvim_command("new | only | silent edit fixtures/example-project-1/init.lua")
     vim.api.nvim_command("set ft=lua")
     helpers.wait_for_ready_lsp()
 
