@@ -19,7 +19,7 @@ PATH=~/.opam/default/bin:~/.nimble/bin:$PATH
 # verible not available on mac.
 # ccls is slow
 # svls compilation takes forever and hogs CPU (takes 15 min).
-ls -d tests/* | grep -v -e 'puppet' -e 'verible' -e 'ccls' -e 'svls' | xargs -I% basename % | xargs -I% -P 2 bash -c 'set -euo pipefail; export TEST=%; ((make setup | tee .tests-output/${TEST}.log) || true); make test | tee .tests-output/${TEST}.log'
+ls -d tests/* | grep -v -e 'puppet' -e 'verible' -e 'ccls' -e 'svls' | xargs -I% basename % | xargs -I% -P 4 bash -c 'set -euo pipefail; export TEST=%; ((make setup | tee .tests-output/${TEST}.log) || true); make test | tee .tests-output/${TEST}.log'
 
 echo
 echo "------------------"
